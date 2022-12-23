@@ -1,0 +1,43 @@
+<div>
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a
+      mat-tab-link
+      *ngFor="let query of querys; let index = index"
+      (click)="activeQuery = query"
+      [active]="activeQuery == query"
+    >
+      {{ query.title }}
+      <button mat-button [disabled]="querys.length === 1" (click)="removeQuery(index)">X</button>
+    </a>
+    <button mat-raised-button class="example-action-button" (click)="addQuery()">+</button>
+  </nav>
+  <div>
+    <button mat-raised-button (click)="handleRun($event)">RUN</button>
+    <select [(ngModel)]="activeQuery.collection">
+      <option *ngFor="let record of records" [value]="record">Limited Record: {{ record }}</option>
+    </select>
+    <button mat-raised-button (click)="handleSave($event)">SAVE</button>
+  </div>
+  <mat-tab-nav-panel #tabPanel>
+    <ngx-monaco-editor
+      [options]="editorOptions"
+      [(ngModel)]="activeQuery.code"
+      (onInit)="editorInit($event)"
+    ></ngx-monaco-editor>
+  </mat-tab-nav-panel>
+</div>
+<div>
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a
+      mat-tab-link
+      *ngFor="let result of results; let index = index"
+      (click)="activeResult = result"
+      [active]="activeResult == result"
+    >
+      {{ result }}
+      <button mat-button [disabled]="results.length === 1" (click)="removeResult(index)">X</button>
+    </a>
+    <button mat-raised-button class="example-action-button" (click)="addResult()">+</button>
+  </nav>
+  <mat-tab-nav-panel #tabPanel> result {{ activeResult }} </mat-tab-nav-panel>
+</div>
